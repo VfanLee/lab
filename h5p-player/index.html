@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>h5p player</title>
+  </head>
+  <body>
+    <div id="h5p-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.6.79/dist/zip.min.js"></script>
+    <script type="text/javascript" src="h5p-standalone-3.5.1/main.bundle.js"></script>
+    <script>
+      new H5PStandalone.H5P(document.querySelector('#h5p-container'), {
+        // h5pJsonPath: 'h5p/489266786',
+        frameJs: 'h5p-standalone-3.5.1/frame.bundle.js',
+        frameCss: 'h5p-standalone-3.5.1/styles/h5p.css',
+      })
+    </script>
+  </body>
+</html>
