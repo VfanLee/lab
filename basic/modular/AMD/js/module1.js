@@ -1,4 +1,4 @@
-;(function () {
+define([], function () {
   var userinfo1 = {
     id: 1,
     username: 'foo',
@@ -9,8 +9,8 @@
     console.log('hello ' + name)
   }
 
-  window.module1 = {
+  return {
     userinfo1,
     sayHi1
   }
-})()
+})

@@ -1,4 +1,4 @@
-var module2 = (function () {
+define([], function () {
   var userinfo2 = {
     id: 2,
     username: 'bar',
@@ -13,4 +13,4 @@ var module2 = (function () {
     userinfo2,
     sayHi2
   }
-})()
+})

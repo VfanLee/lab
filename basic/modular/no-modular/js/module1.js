@@ -1,9 +1,9 @@
-var userinfo = {
+var userinfo1 = {
   id: 1,
-  username: "lee",
-  password: "123456",
-};
+  username: 'foo',
+  password: 'foo'
+}
 
-function sayHi(name) {
-  alert("hello " + name);
+function sayHi1(name) {
+  console.log('hello ' + name)
 }
