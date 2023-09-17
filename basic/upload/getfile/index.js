@@ -1,0 +1,30 @@
+// 通过 change 事件访问被选择的文件
+const getFileByChange = e => {
+  const files = e.target.files
+  console.log('files: ', files)
+}
+
+// 使用传统的 DOM 选择器访问一个被选择的文件
+const getFileByEl = () => {
+  const fileEl = document.getElementById('file-input-element')
+  const files = fileEl.files
+  console.log('files: ', files)
+}
+
+// Drag & Drop
+const dropZone = document.getElementById('drop-zone')
+dropZone.addEventListener('dragenter', e => {
+  e.target.classList.add('drag-over')
+})
+dropZone.addEventListener('dragover', e => {
+  e.preventDefault()
+})
+dropZone.addEventListener('dragleave', e => {
+  e.target.classList.remove('drag-over')
+})
+dropZone.addEventListener('drop', e => {
+  e.target.classList.remove('drag-over')
+  e.preventDefault()
+  const files = e.dataTransfer.files
+  console.log(files)
+})

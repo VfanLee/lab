@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .file-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60px;
+        height: 60px;
+        border: 2px dashed rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        font-size: 32px;
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      input[type='file'] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h2>示例1</h2>
+      <input id="upload-file-element1" type="file" onchange="getFileByChange(event)" />
+      <div class="file-wrap" onclick="btnClick()">+</div>
+    </section>
+
+    <section>
+      <h2>示例2</h2>
+      <label class="file-wrap">
+        <span>+</span>
+        <input id="upload-file-element2" type="file" onchange="getFileByChange(event)" />
+      </label>
+    </section>
+
+    <script src="./index.js"></script>
+  </body>
+</html>

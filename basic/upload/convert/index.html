@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section>
+      <h2>File 转 ArrayBuffer</h2>
+      <h3>方式1</h3>
+      <input type="file" onchange="convertArrayBuffer1(event)" />
+      <h3>方式2（考虑兼容性）</h3>
+      <input type="file" onchange="convertArrayBuffer2(event)" />
+    </section>
+
+    <section>
+      <h2>File 转 DataURL（base64）</h2>
+      <input type="file" onchange="convertDataURL(event)" />
+    </section>
+
+    <section>
+      <h2>File 转 BinaryString</h2>
+      <input type="file" onchange="convertBinaryString(event)" />
+    </section>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
