@@ -1,0 +1,27 @@
+.btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: orange;
+}
+
+.detail {
+  width: 200px;
+  overflow: hidden;
+}
+
+/* 
+  通过 max-height 来给元素添加高度
+  存在如下问题：
+    1. 展开时过快
+    2. 收缩时停顿一会儿，再缓慢收缩
+ */
+.detail .content {
+  max-height: 0;
+  height: auto;
+  background-color: orange;
+  transition: all 2s;
+}
+
+.btn:hover + .detail .content {
+  max-height: 1000px;
+}
