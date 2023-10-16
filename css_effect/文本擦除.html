@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文本擦除</title>
+    <style>
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        position: relative;
+      }
+
+      .eraser {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 10;
+      }
+
+      .eraser-text {
+        --p: 5%;
+        background-image: linear-gradient(to right, #fff0 var(--p), #fff calc(var(--p) + 50px));
+        color: transparent;
+        animation: erase 4s forwards;
+      }
+
+      /* 配置 css 属性 */
+      @property --p {
+        syntax: '<percentage>';
+        initial-value: 0%;
+        inherits: false;
+      }
+
+      /* 动画要生效的前提是：必须是一个 “数值类” 的 “css属性” */
+      @keyframes erase {
+        to {
+          --p: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p class="content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi molestiae sunt provident reprehenderit quas dicta illo illum vero itaque? Veniam facere aliquid accusantium quod! Est, sequi vero? Corrupti, nulla nemo.</p>
+      <p class="eraser">
+        <span class="eraser-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi molestiae sunt provident reprehenderit quas dicta illo illum vero itaque? Veniam facere aliquid accusantium quod! Est, sequi vero? Corrupti, nulla nemo.</span>
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>行盒的截断样式</title>
+    <style>
+      body {
+        padding: 20px;
+      }
+
+      .highlight {
+        background-image: linear-gradient(#adfd2c, #3edb5b);
+        padding: 0 0.5em;
+        border: 2px solid #767575;
+        border-radius: 6px;
+        /* https://developer.mozilla.org/en-US/docs/Web/CSS/box-decoration-break */
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum, quos similique! Expedita numquam pariatur repellendus ullam asperiores excepturi eum nobis, ad cum dolores exercitationem ducimus quos sint accusantium animi odio. Repellat cupiditate eveniet repellendus molestias maiores rem veritatis, nostrum ex amet placeat sunt corrupti tempore similique nemo ut obcaecati optio expedita nesciunt! Quod quidem fuga doloremque earum placeat? Molestiae, fugit!
+      <span class="highlight">Deserunt unde dolorem eveniet placeat aliquid cum ex blanditiis quaerat ad. Repudiandae modi voluptatibus, odit sint, soluta delectus dolores libero quis quaerat suscipit molestiae nisi cupiditate magnam, deleniti dolorem rem? Rerum harum, accusantium nesciunt odit earum quaerat magnam ullam dolore ipsam.</span>
+      Ipsam ea, tempore at, corrupti amet magni accusamus quibusdam quidem molestias quia eos ex nulla maiores officiis, ipsum voluptatum. Unde debitis odit illum saepe. Nihil eum reiciendis temporibus aliquid, itaque at labore voluptatum amet ducimus aliquam error? Nostrum tenetur vel, earum rem ratione quod veniam commodi temporibus sapiente delectus!
+    </p>
+  </body>
+</html>

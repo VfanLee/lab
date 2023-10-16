@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文本对齐</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .form-container {
+        height: 500px;
+      }
+
+      .form-item {
+        width: 300px;
+      }
+
+      .form-item label {
+        display: flex;
+        width: 100%;
+        padding: 10px 20px;
+      }
+
+      .form-item label .label-text {
+        flex: 1;
+        background-color: yellowgreen;
+      }
+
+      .label1 {
+        text-align: left;
+      }
+
+      .label2 {
+        text-align: right;
+      }
+
+      .label3 {
+        text-align: center;
+      }
+
+      .label4 {
+        text-align-last: justify;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="form-item">
+        <label>
+          <span class="label-text label1">靠左</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <div class="form-item">
+        <label>
+          <span class="label-text label2">靠右</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <div class="form-item">
+        <label>
+          <span class="label-text label3">居中</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <div class="form-item">
+        <label>
+          <div class="label-text label4">两端对齐</div>
+          <input type="text" />
+        </label>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>骨架屏动画</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        gap: 20px;
+      }
+
+      .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+
+      .box {
+        width: 200px;
+        height: 50px;
+        border-radius: 16px;
+      }
+
+      .circle,
+      .box {
+        animation: shimmer 1s linear infinite;
+        background-size: 500%;
+        background-image: linear-gradient(
+          to right,
+          #f2f2f2 0%, #f2f2f2 30%,
+          #d9d9d9,
+          #f2f2f2 60%, #f2f2f2 100%
+        );
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 0%;
+        }
+
+        100% {
+          background-position: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="circle"></div>
+    <div class="box"></div>
+  </body>
+</html>

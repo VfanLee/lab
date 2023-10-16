@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>下划线动画</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .title span {
+        line-height: 2;
+        background: linear-gradient(to right, red, green) no-repeat right bottom / 0px 2px;
+        transition: background-size 1s;
+      }
+
+      .title span:hover {
+        background-position: left bottom;
+        background-size: 100% 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="title">
+      <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exceptur i molestiae sunt provident reprehenderit quas dicta illo illum vero itaque? Veniam facere aliquid ac cusantium quod! Est, sequi vero? Corrupti, nulla nemo.</span>
+    </p>
+  </body>
+</html>

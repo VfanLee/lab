@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .form-item {
+        padding: 10px 20px;
+        transition: all 0.3s;
+        text-align: center;
+      }
+
+      .form-item span:has(+ input[type='text'][data-require])::after {
+        content: '*';
+        color: red;
+      }
+
+      .form-item:focus-within {
+        background-color: yellowgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="form-item">
+        <label>
+          <span>姓名</span>
+          <input type="text" data-require />
+        </label>
+      </div>
+
+      <div class="form-item">
+        <label>
+          <span>电话</span>
+          <input type="text" data-require />
+        </label>
+      </div>
+
+      <div class="form-item">
+        <label>
+          <span>邮箱</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <div class="form-item">
+        <button type="button">提交</button>
+      </div>
+    </div>
+  </body>
+</html>

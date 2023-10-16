@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>瀑布流布局</title>
+    <style>
+      .container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        /* 目前仅 Firefox 支持，且需开启配置 */
+        grid-template-rows: masonry;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="https://picsum.photos/200/100" alt="" />
+      <img src="https://picsum.photos/200/200" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/200" alt="" />
+      <img src="https://picsum.photos/200/200" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/100" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/200" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/200" alt="" />
+      <img src="https://picsum.photos/200/200" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/100" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+      <img src="https://picsum.photos/200/300" alt="" />
+    </div>
+  </body>
+</html>
