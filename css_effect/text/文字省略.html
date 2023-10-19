@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文字省略</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .box {
+        width: 520px;
+      }
+
+      .content {
+        border: 2px solid;
+      }
+
+      .content1 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .content2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* 👈 这里控制第几行省略 */
+        -webkit-box-orient: vertical;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <p class="content content1">单行文本省略：Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa repellat tempore sed natus necessitatibus aliquid nam assumenda nulla, voluptates excepturi id asperiores praesentium commodi sequi deleniti laudantium. Eum, suscipit tempora!</p>
+      <p class="content content2">多行文本省略：Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa repellat tempore sed natus necessitatibus aliquid nam assumenda nulla, voluptates excepturi id asperiores praesentium commodi sequi deleniti laudantium. Eum, suscipit tempora!</p>
+    </div>
+  </body>
+</html>
