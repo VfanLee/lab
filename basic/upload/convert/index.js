@@ -1,44 +1,90 @@
-const convertArrayBuffer1 = async e => {
-  const file = e.target.files[0]
-  if (file) {
-    const ab = await file.arrayBuffer()
-    console.log(ab)
-  }
+let file = null
+function addFile(event) {
+  file = event.target.files[0]
+  console.log(file)
 }
 
-// 考虑兼容性可以使用如下方式
-const convertArrayBuffer2 = e => {
-  const file = e.target.files[0]
-  if (file) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const ab = e.target.result
-      console.log(ab)
-    }
-    reader.readAsArrayBuffer(file)
+const fileToArrayBuffer = e => {
+  if (!file) {
+    return alert('请先添加文件！')
   }
+
+  // 写法一
+  const reader = new FileReader()
+  reader.onload = ev => {
+    const result = ev.target.result
+    console.log(result)
+  }
+  reader.readAsArrayBuffer(file)
+
+  // 写法二：不考虑兼容性
+  // file.arrayBuffer().then(result => {
+  //   console.log(result)
+  // })
 }
 
-const convertDataURL = async e => {
-  const file = e.target.files[0]
-  if (file) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const du = e.target.result
-      console.log(du)
-    }
-    reader.readAsDataURL(file)
+const fileToBinaryString = e => {
+  if (!file) {
+    return alert('请先添加文件！')
   }
+  const reader = new FileReader()
+  reader.onload = ev => {
+    const result = ev.target.result
+    console.log(result)
+  }
+  reader.readAsBinaryString(file)
 }
 
-const convertBinaryString = async e => {
-  const file = e.target.files[0]
-  if (file) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const bs = e.target.result
-      console.log(bs)
+const fileToDataURL = e => {
+  if (!file) {
+    return alert('请先添加文件！')
+  }
+  const reader = new FileReader()
+  reader.onload = ev => {
+    const result = ev.target.result
+    console.log(result)
+
+    if (file.type.includes('image')) {
+      const el = document.createElement('img')
+      el.src = result
+      document.body.appendChild(el)
     }
-    reader.readAsBinaryString(file)
+  }
+  reader.readAsDataURL(file)
+}
+
+const fileToText = e => {
+  if (!file) {
+    return alert('请先添加文件！')
+  }
+  const reader = new FileReader()
+  reader.onload = ev => {
+    const result = ev.target.result
+    console.log(result)
+  }
+  reader.readAsText(file)
+}
+
+const fileToObjectURL = e => {
+  if (!file) {
+    return alert('请先添加文件！')
+  }
+  const url = URL.createObjectURL(file)
+  console.log(url)
+
+  if (file.type.includes('image')) {
+    const el = document.createElement('img')
+    el.src = url
+    document.body.appendChild(el)
+  } else if (file.type.includes('audio')) {
+    const el = document.createElement('audio')
+    el.setAttribute('controls', '')
+    el.src = url
+    document.body.appendChild(el)
+  } else if (file.type.includes('video')) {
+    const el = document.createElement('video')
+    el.setAttribute('controls', '')
+    el.src = url
+    document.body.appendChild(el)
   }
 }

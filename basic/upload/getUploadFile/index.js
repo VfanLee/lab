@@ -1,11 +1,11 @@
 // 通过 change 事件访问被选择的文件
-const getFileByChange = e => {
+const getByChange = e => {
   const files = e.target.files
   console.log('files: ', files)
 }
 
-// 使用传统的 DOM 选择器访问一个被选择的文件
-const getFileByEl = () => {
+// 使用 DOM 选择器访问一个被选择的文件
+const getBySelector = () => {
   const fileEl = document.getElementById('file-input-element')
   const files = fileEl.files
   console.log('files: ', files)
@@ -28,3 +28,9 @@ dropZone.addEventListener('drop', e => {
   const files = e.dataTransfer.files
   console.log(files)
 })
+
+// 间接触发 click 事件
+const handleClick = () => {
+  const uploadEl = document.getElementById('upload-file-element1')
+  uploadEl.click()
+}
