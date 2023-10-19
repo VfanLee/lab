@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      section {
+        padding: 16px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h2>File To Xxx</h2>
+      <input type="file" onchange="addFile(event)" />
+      <br />
+      <button onclick="fileToArrayBuffer(event)">To ArrayBuffer</button>
+      <button onclick="fileToBinaryString(event)">To BinaryString</button>
+      <button onclick="fileToDataURL(event)">To DataURL(Base64)</button>
+      <button onclick="fileToText(event)">To Text</button>
+      <button onclick="fileToObjectURL(event)">To ObjectURL</button>
+    </section>
+
+    <hr />
+    <section>
+      <button type="button" onclick="createBlob(event)">Create Blob</button>
+    </section>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
