@@ -11,5 +11,6 @@
 
 .detail .content {
   height: 0;
+  background-color: orange;
   transition: all 2s;
 }
