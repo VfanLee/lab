@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      section {
+        padding: 10px 20px;
+        border: 1px solid;
+      }
+
+      section + section {
+        margin-top: 10px;
+      }
+
+      .content {
+        color: red;
+      }
+
+      .btn {
+        background-color: orange;
+        padding: 12px 20px;
+        border-radius: 16px;
+        cursor: pointer;
+      }
+
+      .initial p,
+      .initial button {
+        all: initial;
+      }
+
+      .unset p,
+      .unset button {
+        all: unset;
+      }
+
+      .revert p,
+      .revert button {
+        all: revert;
+      }
+    </style>
+  </head>
+  <body>
+    <pre>
+<strong>inherit</strong> 关键字用于设置 CSS 属性为它的父元素的值，也就是继承父元素的样式。例如：color: inherit 就相当于把 color 属性设置为和父元素一样的颜色。
+
+<strong>initial</strong> 关键字用于设置 CSS 属性为它的默认值，也就是浏览器的初始样式。例如：color: initial 就相当于 color: black，因为 black 是 color 属性的默认值。
+
+<strong>unset</strong> 关键字用于设置 CSS 属性为不固定的值，也就是根据属性的继承特性来决定。
+  - 如果该属性是默认继承属性，那么 unset 等同于 inherit；例如：color: unset 就相当于 color: inherit，因为 color 是可继承属性。
+  - 如果该属性是非继承属性，那么 unset 等同于 initial。例如：border: unset 就相当于 border: initial，因为 border 是不可继承属性。
+
+<strong>revert</strong> 关键字用于设置 CSS 属性为它的原始值，也就是恢复到之前的样式。
+  如果该属性有用户代理（浏览器）的样式，那么 revert 等同于用户代理的样式。例如：color: revert 就相当于恢复到浏览器默认的颜色。
+  如果该属性没有用户代理的样式，那么 revert 等同于 initial。例如：border: revert 就相当于恢复到没有边框的样式。
+  </pre>
+
+    <section class="default" title="default">
+      <p class="content">Lorem ipsum dolor sit amet.</p>
+      <hr />
+      <button class="btn">default button</button>
+    </section>
+
+    <section class="initial" title="initial">
+      <p class="content">Lorem ipsum dolor sit amet.【w3c 默认值】</p>
+      <hr />
+      <button class="btn">initial button</button>
+    </section>
+
+    <section class="unset" title="unset">
+      <p class="content">Lorem ipsum dolor sit amet.</p>
+      <hr />
+      <button class="btn">unset button</button>
+    </section>
+
+    <section class="revert" title="revert">
+      <p class="content">Lorem ipsum dolor sit amet.【浏览器默认值】</p>
+      <hr />
+      <button class="btn">revert button</button>
+    </section>
+  </body>
+</html>
