@@ -92,7 +92,7 @@ module.exports = {
   devtool: 'eval-cheap-module-source-map',
   devServer: {
     host: 'localhost',
-    port: '3000',
+    // port: '3000',
     open: true,
     hot: true // 开启HMR功能
   }

@@ -1,8 +1,8 @@
 {
-  "name": "webpack-demo",
+  "name": "webpack-app",
   "version": "1.0.0",
   "scripts": {
-    "serve": "webpack serve --config ./config/webpack.dev.js",
+    "dev": "webpack serve --config ./config/webpack.dev.js",
     "build": "webpack --config ./config/webpack.prod.js"
   },
   "devDependencies": {
