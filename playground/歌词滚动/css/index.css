@@ -1,0 +1,41 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #fff;
+  text-align: center;
+  background: url(../assets/attack.png) no-repeat center / cover;
+  height: 100vh;
+}
+
+.player {
+  width: 450px;
+  margin: 30px 0;
+}
+
+.container {
+  height: 420px;
+  overflow: hidden;
+}
+
+.lrc-list {
+  transition: 0.6s;
+}
+
+.lrc-list li {
+  height: 30px;
+  line-height: 30px;
+  transition: 0.3s;
+  font-size: 18px;
+}
+
+.lrc-list li.active {
+  color: yellowgreen;
+  font-weight: 700;
+  transform: scale(1.5);
+}
