@@ -1,6 +1,7 @@
 const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const config = require('./config')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -9,10 +10,11 @@ module.exports = {
   mode: 'production',
   // 入口
   entry: resolve(__dirname, '../src/main.js'),
-  // source map【生产环境一般不需要，需要线上调试时再开启】
-  // devtool: 'source-map',
+  // source map
+  devtool: 'source-map',
   // 输出
   output: {
+    publicPath: config.publicPath,
     path: resolve(__dirname, '../dist'), // 输出路径
     filename: 'js/[name].[contenthash:10].js', // 输出 bundle 的名称
     chunkFilename: 'js/[name].chunk.[contenthash:10].js', // 非初始 chunk 文件的名称
@@ -54,7 +56,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       title: 'Webpack Demo',
-      filename: 'index.html'
+      filename: 'index.html',
+      publicPath: 'auto'
     }),
     // https://webpack.docschina.org/plugins/mini-css-extract-plugin
     new MiniCssExtractPlugin({
