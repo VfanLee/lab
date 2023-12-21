@@ -1,90 +1,168 @@
 const { resolve } = require('path')
+const config = require('./config')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const config = require('./config')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
-  // 模式
   mode: 'production',
-  // 入口
-  entry: resolve(__dirname, '../src/main.js'),
-  // source map
   devtool: 'source-map',
-  // 输出
+  context: resolve(__dirname, '../'),
+  entry: './src/main.js',
   output: {
+    hashFunction: 'xxhash64',
+    path: resolve(__dirname, '../dist'),
+    filename: 'js/[name].[contenthash:8].js',
     publicPath: config.publicPath,
-    path: resolve(__dirname, '../dist'), // 输出路径
-    filename: 'js/[name].[contenthash:10].js', // 输出 bundle 的名称
-    chunkFilename: 'js/[name].chunk.[contenthash:10].js', // 非初始 chunk 文件的名称
-    assetModuleFilename: 'media/[hash:10][ext][query]', // Asset Modules 处理资源的文件的命名
-    clean: true // 在生成文件之前清空 output 目录
+    chunkFilename: 'js/[name].chunk.[contenthash:8].js',
+    clean: true
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, '../src')
+    }
   },
   module: {
     rules: [
+      /* config.module.rule('svg') */
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+        test: /\.(svg)(\?.*)?$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name].[hash:8][ext]'
+        }
       },
+      /* config.module.rule('images') */
       {
-        test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+        test: /\.(png|jpe?g|gif|webp|avif)(\?.*)?$/,
+        type: 'asset',
+        generator: {
+          filename: 'img/[name].[hash:8][ext]'
+        }
       },
+      /* config.module.rule('media') */
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource'
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        type: 'asset',
+        generator: {
+          filename: 'media/[name].[hash:8][ext]'
+        }
       },
+      /* config.module.rule('fonts') */
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource'
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+        type: 'asset',
+        generator: {
+          filename: 'fonts/[name].[hash:8][ext]'
+        }
       },
+      /* config.module.rule('css') */
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
+        test: /\.css$/,
         use: [
           {
-            loader: 'babel-loader'
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: config.publicPath
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: false,
+              importLoaders: 2
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: false
+            }
+          }
+        ]
+      },
+      /* config.module.rule('s[ac]ss') */
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: config.publicPath
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              importLoaders: 2
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      /* config.module.rule('js') */
+      {
+        test: /\.m?js?$/,
+        exclude: /node_modules/,
+        use: [
+          /* config.module.rule('js').use('thread-loader') */
+          'thread-loader',
+          /* config.module.rule('js').use('babel-loader') */
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheCompression: false,
+              cacheDirectory: 'node_modules/.cache/babel-loader'
+            }
           }
         ]
       }
     ]
   },
-  // 插件
   plugins: [
-    // https://github.com/jantimon/html-webpack-plugin
+    /* config.plugin('case-sensitive-paths') */
+    new CaseSensitivePathsPlugin(),
+    /* config.plugin('friendly-errors') */
+    new FriendlyErrorsWebpackPlugin(),
+    /* config.plugin('html') */
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       title: 'Webpack Demo',
       filename: 'index.html',
       publicPath: 'auto'
     }),
-    // https://webpack.docschina.org/plugins/mini-css-extract-plugin
+    /* config.plugin('mini-css-extract') */
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:10].css',
-      chunkFilename: 'css/[name].chunk.[contenthash:10].css'
+      filename: 'css/[name].[contenthash:8].css',
+      chunkFilename: 'css/[name].chunk.[contenthash:8].css'
     })
   ],
-  resolve: {
-    // 路径别名
-    alias: {
-      '@': resolve(__dirname, '../src')
-    }
-  },
-  // 优化
   optimization: {
-    // 代码压缩
-    minimize: true,
-    // 自定义插锁
-    minimizer: [
-      // css 压缩 https://webpack.docschina.org/plugins/css-minimizer-webpack-plugin
-      new CssMinimizerPlugin(),
-      // js 压缩（自带） https://webpack.docschina.org/plugins/terser-webpack-plugin/#terseroptions
-      new TerserPlugin()
-    ],
-    // 代码分割配置
+    realContentHash: false,
     splitChunks: {
-      chunks: 'all' // 对所有模块都进行分割
-    }
+      chunks: 'all'
+    },
+    minimize: true,
+    minimizer: [
+      /* config.optimization.minimizer('css') */
+      new CssMinimizerPlugin(),
+      /* config.optimization.minimizer('terser') */
+      new TerserPlugin()
+    ]
   }
 }

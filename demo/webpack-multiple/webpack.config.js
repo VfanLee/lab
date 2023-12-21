@@ -5,9 +5,10 @@ const chunks = ['pc', 'mobile']
 
 module.exports = {
   mode: 'production',
+  context: resolve(__dirname),
   entry: {
-    pc: resolve(__dirname, 'src/pages/pc/main.js'),
-    mobile: resolve(__dirname, 'src/pages/mobile/main.js')
+    pc: './src/pages/pc/main.js',
+    mobile: './src/pages/mobile/main.js'
   },
   output: {
     path: resolve(__dirname, 'dist'),
