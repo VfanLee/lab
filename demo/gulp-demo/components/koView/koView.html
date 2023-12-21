@@ -1,0 +1,11 @@
+<!-- ko if: showViewPage() -->
+<div
+  class="ko-view"
+  data-bind="
+    attr: { 'id': id },
+    component: {
+      name: 'ko-view-page',
+      params: { params: viewPageParams }
+    }"
+></div>
+<!-- /ko -->
