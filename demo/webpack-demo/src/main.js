@@ -1,13 +1,15 @@
 import { camelCase } from 'lodash'
 import { randomColor } from '@/utils'
 import imgUrl from '@/assets/images/logo.png'
+import $ from 'jquery'
+
+console.log($.fn)
 
 import 'normalize.css'
 import '@/styles/index.scss'
 
 // 测试
-debugger
-console.log('main.js 加载成功')
+console.log('加载 main.js')
 // 测试
 
 const App = function () {

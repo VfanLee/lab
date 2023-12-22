@@ -1,29 +1,24 @@
 const config = require('./config')
-const { resolve } = require('path')
+const { resolve, join } = require('path')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  // 模式
   mode: 'development',
-  // 控制是否生成，以及如何生成 source map
   devtool: 'inline-source-map',
-  // 上下文：用于从配置中解析入口点(entry point)和 加载器(loader)
   context: resolve(__dirname, '../'),
-  // 入口
   entry: './src/main.js',
-  // 输出
   output: {
+    publicPath: config.publicPath,
     hashFunction: 'xxhash64',
     path: resolve(__dirname, '../dist'),
     filename: 'js/[name].js',
-    publicPath: config.publicPath,
-    chunkFilename: 'js/[name].js'
+    chunkFilename: 'js/[name].js',
+    assetModuleFilename: 'asset/[name].[hash:8][ext]'
   },
-  // 解析：设置模块如何被解析
   resolve: {
-    // 路径别名
     alias: {
       '@': resolve(__dirname, '../src')
     }
@@ -128,7 +123,6 @@ module.exports = {
       }
     ]
   },
-  // 插件
   plugins: [
     /* config.plugin('case-sensitive-paths') */
     new CaseSensitivePathsPlugin(),
@@ -140,9 +134,23 @@ module.exports = {
       title: 'Webpack Demo',
       filename: 'index.html',
       publicPath: 'auto'
+    }),
+    /* config.plugin('copy') */
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, '../public'),
+          to: resolve(__dirname, '../dist'),
+          globOptions: {
+            ignore: ['**/index.html']
+          },
+          info: {
+            minimized: true
+          }
+        }
+      ]
     })
   ],
-  // https://webpack.docschina.org/configuration/dev-server/
   devServer: {
     client: {
       logging: 'info',
@@ -156,10 +164,10 @@ module.exports = {
     https: false,
     host: 'local-ip',
     port: 'auto',
-    // static: {
-    //   publicPath: config.publicPath
-    // },
-    open: [config.publicPath], // 启动服务时，自动打开标签页
+    static: {
+      publicPath: config.publicPath
+    },
+    open: [config.publicPath],
     hot: true, // 模块热替换
     liveReload: false, // 当监听到文件变化时 dev-server 将会重新加载或刷新页面
     onListening: function (devServer) {
@@ -172,5 +180,8 @@ module.exports = {
       console.log(`Listening on: ${protocol}://${address}:${port}${publicPath}`)
     }
   },
-  stats: 'errors-only'
+  stats: 'errors-only',
+  externals: {
+    jquery: 'jQuery'
+  }
 }

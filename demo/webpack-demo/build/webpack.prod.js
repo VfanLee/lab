@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   mode: 'production',
@@ -13,11 +14,12 @@ module.exports = {
   context: resolve(__dirname, '../'),
   entry: './src/main.js',
   output: {
+    publicPath: config.publicPath,
     hashFunction: 'xxhash64',
     path: resolve(__dirname, '../dist'),
     filename: 'js/[name].[contenthash:8].js',
-    publicPath: config.publicPath,
     chunkFilename: 'js/[name].chunk.[contenthash:8].js',
+    assetModuleFilename: 'asset/[name].[hash:8][ext]',
     clean: true
   },
   resolve: {
@@ -150,6 +152,23 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].chunk.[contenthash:8].css'
+    }),
+    /* config.plugin('copy') */
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, '../public'),
+          to: resolve(__dirname, '../dist'),
+          toType: 'dir',
+          noErrorOnMissing: false,
+          globOptions: {
+            ignore: ['**/index.html']
+          },
+          info: {
+            minimized: false
+          }
+        }
+      ]
     })
   ],
   optimization: {
@@ -164,5 +183,8 @@ module.exports = {
       /* config.optimization.minimizer('terser') */
       new TerserPlugin()
     ]
+  },
+  externals: {
+    jquery: 'jQuery'
   }
 }
