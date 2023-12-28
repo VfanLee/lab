@@ -1,5 +1,46 @@
-define(['knockout', 'director', 'text'], function (ko) {
-  'use strict'
+'use strict'
+
+/* // 路由定义方式示例
+  var routes = {
+    '/author': author,
+    '/books': [
+      books,
+      function () {
+        console.log('An inline route handler.')
+      }
+    ],
+    '/books/view/:bookId': viewBook,
+    '/dog': {
+      '/aaa': function () {
+        console.log('dog aaa')
+      },
+      '/bbb': function () {
+        console.log('dog bbb')
+      },
+      '/color/:color': {
+        on: function (color) {
+          console.log('dog color ' + color)
+        }
+      },
+      'on': function () {
+        console.log('only dog')
+      }
+    }
+  }
+  var author = function () {
+    console.log('author')
+  }
+  var books = function () {
+    console.log('books')
+  }
+  var viewBook = function (bookId) {
+    console.log('viewBook: bookId is populated: ' + bookId)
+  }
+  router.on('/some/resource', function () {
+    console.log('some resource')
+  })
+*/
+define(['knockout', 'director'], function (ko) {
   function koView(params) {
     var self = this
     self.routingRules = params.routingRules
@@ -7,12 +48,10 @@ define(['knockout', 'director', 'text'], function (ko) {
       return
     }
     self.showViewPage = ko.observable(false)
-    self.viewPageParams = ko.observable()
+    self.viewParams = ko.observable()
     self.id = 'koView' + (Math.random() * 1000).toFixed(0)
-
     window.koViewRouterInstance = window.koViewRouterInstance ? window.koViewRouterInstance : null
     window.koViewRouterPreviousRoute = window.koViewRouterPreviousRoute ? window.koViewRouterPreviousRoute : []
-    // window.koViewRouteLevel = window.koViewRouteLevel ? window.koViewRouteLevel : []
     window.routeChangedByUser = window.routeChangedByUser != undefined ? window.routeChangedByUser : true
     var hasStepInTimer = false
     var destHash = ''
@@ -21,7 +60,6 @@ define(['knockout', 'director', 'text'], function (ko) {
     var callbackQueue = []
     var callbackQueueTimer
     var callbackLastRule
-
     function startTimer() {
       return setInterval(function () {
         if ($('#' + self.id).length == 0) {
@@ -43,45 +81,36 @@ define(['knockout', 'director', 'text'], function (ko) {
     function generateViewPageCallback(rule, title, params) {
       return function () {
         koViewRouterPreviousRoute = getPureRoute()
-
         title && (document.title = title)
-
         if (!self.showViewPage() || $('#' + self.id).length == 0 || $('#' + self.id).html()) {
-          ko.components.unregister('ko-view-page')
-          ko.components.register('ko-view-page', rule)
+          ko.components.unregister('ko-view')
+          ko.components.register('ko-view', rule)
           callbackLastRule = rule
-
-          self.viewPageParams(params)
-
+          self.viewParams(params)
           self.showViewPage(false)
           self.showViewPage(true)
         } else {
           if (rule == callbackLastRule) {
             return
           }
-
           callbackQueue = []
           callbackQueue.push(
             (function () {
               return function () {
-                ko.components.unregister('ko-view-page')
-                ko.components.register('ko-view-page', rule)
-
-                self.viewPageParams(params)
-
+                ko.components.unregister('ko-view')
+                ko.components.register('ko-view', rule)
+                self.viewParams(params)
                 self.showViewPage(false)
                 self.showViewPage(true)
               }
             })()
           )
-
           if (!callbackQueueTimer) {
             callbackQueueTimer = startTimer()
           }
         }
       }
     }
-
     if (!koViewRouterInstance || (koViewRouterInstance && !(koViewRouterInstance instanceof Router))) {
       // 初始化路由
       var routes = {}
@@ -92,7 +121,6 @@ define(['knockout', 'director', 'text'], function (ko) {
           var params = self.routingRules[ruleIndex].params
           var callback = generateViewPageCallback(rule, title, params)
           var after = self.routingRules[ruleIndex].after
-
           routes[ruleIndex] = {
             on: callback,
             after: after
@@ -104,17 +132,11 @@ define(['knockout', 'director', 'text'], function (ko) {
           }
         }
       }
-
       var router = new Router(routes)
       koViewRouterInstance = router
-
       router.configure({
-        // recurse: 'forward',
         notfound: function () {
-          // self.showViewPage(false);
-          // ko.components.unregister('ko-view-page');
-
-          router.setRoute('/i18n')
+          router.setRoute('/index')
         },
         after: function () {
           $('.modal').remove()
@@ -127,9 +149,7 @@ define(['knockout', 'director', 'text'], function (ko) {
           }
           if (routeChangedByUser && needStepInto()) {
             var levelList = location.hash.split('/')
-
             if (levelList.length > 2) {
-              // koViewRouteLevel = levelList
               levelList.shift() // 排除掉hash中的#
 
               var stepList = []
@@ -142,18 +162,15 @@ define(['knockout', 'director', 'text'], function (ko) {
                   stepList.push(stepHash)
                 }
               }
-
               routeChangedByUser = false
               clearTimeout(hasStepInTimer)
               goStep(stepList)
             }
           }
-
           function goStep(stepList) {
             if (stepList.length > 0) {
               var dest = stepList.shift()
               destHash = dest
-
               koViewRouterInstance.dispatch('on', dest)
               // 用延时并不保险，可是director.js的dispatch方法无法触发callback，暂时这样
               hasStepInTimer = setTimeout(function () {
@@ -166,12 +183,10 @@ define(['knockout', 'director', 'text'], function (ko) {
           }
         }
       })
-
       router.init()
     } else {
       // 添加路由注册，一级一级注册是为了让每一级路由组件初始化在对应的koView层级
       var router = koViewRouterInstance
-
       for (var ruleIndex in self.routingRules) {
         if (self.routingRules.hasOwnProperty(ruleIndex)) {
           var rule = self.routingRules[ruleIndex].rule
@@ -179,7 +194,6 @@ define(['knockout', 'director', 'text'], function (ko) {
           var params = self.routingRules[ruleIndex].params
           var callback = generateViewPageCallback(rule, title, params)
           var after = self.routingRules[ruleIndex].after
-
           router.on(ruleIndex, callback)
           router.on('after', ruleIndex, after)
           ruleIndex += '/?((w|.)*)'
@@ -187,7 +201,6 @@ define(['knockout', 'director', 'text'], function (ko) {
           router.on('after', ruleIndex, after)
         }
       }
-
       var hasExtraRule = false
       hasExtraRule = deleteExtraRule(router.routes)
       if (hasExtraRule && routeChangedByUser && canRedirect()) {
@@ -206,7 +219,6 @@ define(['knockout', 'director', 'text'], function (ko) {
           // 当有二级路由时，删除一级路由的通配符
           // var temp = ruleTree['?((\w|.)*)']
           delete ruleTree['?((w|.)*)'] // 删除会导致如果 /course/xxx在两个路由里都需要注册时，只能注册成功一个，因为另一个没有通配符可以匹配到
-          // ruleTree['?((\w|.)*)'] = temp
           hasExtraRule = true
         } else {
           if (ruleTree[node] instanceof Array && ruleTree[node].length > 1) {
@@ -216,13 +228,11 @@ define(['knockout', 'director', 'text'], function (ko) {
             }
           }
         }
-
         if (typeof ruleTree[node] !== 'function') {
           deleteExtraRule(ruleTree[node])
         }
       }
     }
-
     return hasExtraRule
   }
 
@@ -241,16 +251,13 @@ define(['knockout', 'director', 'text'], function (ko) {
         currentRoute.pop()
       }
     }
-
     return currentRoute
   }
 
   // 判断是否存在需要重新触发的路由，防止在不存在的路由无限刷新
   function canRedirect(currentRoute) {
     currentRoute = currentRoute ? currentRoute : getPureRoute()
-
     var routeNode = koViewRouterInstance.routes
-
     for (var i = 0; i < currentRoute.length; i++) {
       var level = currentRoute[i]
       if (routeNode[level] != null) {
@@ -269,7 +276,6 @@ define(['knockout', 'director', 'text'], function (ko) {
     if (!routeNode['?((w|.)*)'] && !routeNode['on']) {
       return false
     }
-
     return true
   }
 
@@ -277,7 +283,6 @@ define(['knockout', 'director', 'text'], function (ko) {
   function needStepInto() {
     // 当前路由
     var currentRoute = getPureRoute()
-
     if (currentRoute.length > 1) {
       if (koViewRouterPreviousRoute.length < currentRoute.length - 1) {
         // 是否跨两级进入更多级的路由
@@ -295,43 +300,5 @@ define(['knockout', 'director', 'text'], function (ko) {
     }
     return false
   }
-
   return koView
 })
-
-// 路由定义方式示例
-// var routes = {
-//   '/author': author,
-//   '/books': [books, function() {
-//     console.log("An inline route handler.");
-//   }],
-//   '/books/view/:bookId': viewBook,
-//   '/dog': {
-//     '/aaa': function() {
-//       console.log("dog aaa");
-//     },
-//     '/bbb': function() {
-//       console.log("dog bbb");
-//     },
-//     '/color/:color': {
-//       on: function(color) {
-//         console.log("dog color " + color)
-//       }
-//     },
-//     on: function() {
-//       console.log("only dog");
-//     }
-//   }
-// };
-// var author = function() {
-//   console.log("author");
-// };
-// var books = function() {
-//   console.log("books");
-// };
-// var viewBook = function(bookId) {
-//   console.log("viewBook: bookId is populated: " + bookId);
-// };
-// router.on('/some/resource', function() {
-//   console.log("some resource");
-// });
