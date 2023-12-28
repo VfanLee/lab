@@ -159,10 +159,8 @@ module.exports = {
         {
           from: resolve(__dirname, '../public'),
           to: resolve(__dirname, '../dist'),
-          toType: 'dir',
-          noErrorOnMissing: false,
           globOptions: {
-            ignore: ['**/index.html']
+            ignore: ['**/public/index.html']
           },
           info: {
             minimized: false
