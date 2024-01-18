@@ -1,4 +1,4 @@
-const { task, src, dest, watch, series } = require('gulp')
+const { src, dest, watch, series } = require('gulp')
 const rename = require('gulp-rename')
 const uglify = require('gulp-uglify')
 const sass = require('gulp-sass')(require('sass'))
@@ -29,8 +29,8 @@ function buildJs() {
 // 启动一个开发服务器
 function server() {
   connect.server()
-  watch(sassSource, series('sass'))
-  watch(componentsSource, series('js'))
+  watch(sassSource, series('buildSass'))
+  watch(componentsSource, series('buildJs'))
 }
 
 module.exports.buildSass = buildSass
