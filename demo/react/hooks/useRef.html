@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello React18</title>
+    <title>React useRef</title>
   </head>
   <body>
     <div id="app"></div>
@@ -12,33 +12,21 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-      const { useState } = React
+      const { useRef } = React
       const app = document.getElementById('app')
 
-      function Header({ title }) {
-        return <h1>{title || 'Default Title'}</h1>
-      }
+      function App() {
+        const inputRef = useRef(null)
 
-      const names = ['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton']
-      function List() {
-        return names.map((n, index) => <li key={index}>{n}</li>)
-      }
-
-      function LikeButton() {
-        const [likes, setLikes] = useState(0)
-        function handleClick() {
-          setLikes(likes + 1)
+        const handleClick = () => {
+          console.log(inputRef.current)
         }
 
-        return <button onClick={handleClick}>like({likes})</button>
-      }
-
-      function App() {
         return (
           <>
-            <Header title="React" />
-            <List />
-            <LikeButton />
+            <input type="text" ref={inputRef} />
+
+            <button onClick={handleClick}>获取 input DOM</button>
           </>
         )
       }
