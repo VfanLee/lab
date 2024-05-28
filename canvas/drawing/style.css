@@ -1,0 +1,19 @@
+.drawing__container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.drawing__tools {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  display: flex;
+  gap: 8px;
+  padding-inline: 16px;
+  padding-block: 16px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.33);
+  transform: translateX(-50%);
+  user-select: none;
+}

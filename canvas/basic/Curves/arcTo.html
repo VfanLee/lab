@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>arcTo</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      #canvas {
+        display: block;
+      }
+      .code {
+        margin: 0;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        font-size: 20px;
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <pre class="code">
+const x1 = 600
+const y1 = 300
+const x2 = 600
+const y2 = 600
+const x3 = 300
+const y3 = 600
+const radius = 300
+ctx.beginPath()
+ctx.moveTo(x1, y1)
+ctx.arcTo(x2, y2, x3, y3, radius)
+ctx.stroke()
+    </pre>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      /**
+       * @type{HTMLCanvasElement}
+       */
+      const canvas = document.querySelector('#canvas')
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+
+      const ctx = canvas.getContext('2d')
+
+      const x1 = 600
+      const y1 = 300
+      const x2 = 600
+      const y2 = 600
+      const x3 = 300
+      const y3 = 600
+      const radius = 300
+      ctx.beginPath()
+      ctx.moveTo(x1, y1)
+      ctx.arcTo(x2, y2, x3, y3, radius)
+      ctx.stroke()
+
+      // 辅助
+      ctx.font = '16px 楷体'
+      ctx.textBaseline = 'top'
+      // 辅助线
+      ctx.setLineDash([6])
+      ctx.beginPath()
+      ctx.moveTo(x1, y1)
+      ctx.lineTo(x2, y2)
+      ctx.fillText('切线1', x2 + 16, y2 - (y2 - y1) / 2)
+      ctx.lineTo(x3, y3)
+      ctx.fillText('切线2', x2 - (x2 - x3) / 2 + 16, y2 + 16)
+      ctx.stroke()
+      // 辅助点
+      ctx.fillRect(x1, y1, 10, 10)
+      ctx.fillText(`(x1, y1)(${x1}, ${y1})`, x1 + 16, y1 + 16)
+      ctx.fillRect(x2, y2, 10, 10)
+      ctx.fillText(`(x2, y2)(${x2}, ${y2})`, x2 + 16, y2 + 16)
+      ctx.fillRect(x3, y3, 10, 10)
+      ctx.fillText(`(x3, y3)(${x3}, ${y3})`, x3 + 16, y3 + 16)
+    </script>
+  </body>
+</html>

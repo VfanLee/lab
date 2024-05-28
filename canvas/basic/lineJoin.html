@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>线条属性 lineJoin</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      #canvas {
+        display: block;
+        background-color: #ff8;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      /**
+       * @type {HTMLCanvasElement}
+       */
+      const canvas = document.querySelector('#canvas')
+      canvas.width = 600
+      canvas.height = 300
+      const ctx = canvas.getContext('2d')
+
+      ctx.lineWidth = 50
+
+      ctx.beginPath()
+      ctx.lineTo(50, 50)
+      ctx.lineTo(150, 150)
+      ctx.lineTo(50, 250)
+      // lineJoin：线条相连部分形状，miter（默认）
+      ctx.lineJoin = 'miter'
+      // 设置斜接面限制比例
+      // ctx.miterLimit = 10
+      ctx.strokeStyle = '#f00'
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.lineTo(250, 50)
+      ctx.lineTo(350, 150)
+      ctx.lineTo(250, 250)
+      // lineJoin：线条相连部分形状，bevel
+      ctx.lineJoin = 'bevel'
+      ctx.strokeStyle = '#0f0'
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.lineTo(450, 50)
+      ctx.lineTo(550, 150)
+      ctx.lineTo(450, 250)
+      // lineJoin：线条相连部分形状，round
+      ctx.lineJoin = 'round'
+      ctx.strokeStyle = '#00f'
+      ctx.stroke()
+    </script>
+  </body>
+</html>

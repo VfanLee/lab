@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>easy-canvas example</title>
+    <style>
+      canvas {
+        box-shadow: 0 0 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <!-- <script src="../dist/easy-canvas.js"></script> -->
+    <script src="../dist/easy-canvas.min.js"></script>
+    <script>
+      const canvas = document.querySelector('#canvas')
+      canvas.width = 600
+      canvas.height = 300
+
+      /* coding */
+      const ec = new EasyCanvas(canvas)
+
+      ec.line(50, 50, 100, 70)
+
+      ec.rect(100, 100, 100, 100)
+
+      ec.arc(200, 100, 50, 0, Math.PI * 2, false)
+
+      ec.text('Canvas', 300, 150)
+    </script>
+  </body>
+</html>

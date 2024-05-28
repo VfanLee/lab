@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>arc</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      #canvas {
+        display: block;
+      }
+      .code {
+        margin: 0;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        font-size: 20px;
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <pre class="code">
+const cx = 500
+const cy = 500
+const radius = 200
+const startAngle = 0
+const endAngle = Math.PI * 1.5
+const counterclockwise = false
+ctx.arc(cx, cy, radius, startAngle, endAngle, counterclockwise)
+ctx.stroke()
+    </pre>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      /**
+       * @type{HTMLCanvasElement}
+       */
+      const canvas = document.querySelector('#canvas')
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+
+      const ctx = canvas.getContext('2d')
+
+      const cx = 500
+      const cy = 500
+      const radius = 200
+      const startAngle = 0
+      const endAngle = Math.PI * 1.5
+      const counterclockwise = false
+      ctx.arc(cx, cy, radius, startAngle, endAngle, counterclockwise)
+      ctx.stroke()
+
+      // 辅助
+      ctx.font = '16px 楷体'
+      ctx.textBaseline = 'top'
+      // 辅助线
+      ctx.save()
+      ctx.textAlign = 'center'
+      ctx.setLineDash([6])
+      ctx.beginPath()
+      ctx.moveTo(cx, cy)
+      ctx.lineTo(cx - radius, cy)
+      ctx.fillText(`半径 ${radius}`, cx - radius / 2, cy + 6)
+      ctx.stroke()
+      ctx.restore()
+      // 辅助点
+      ctx.fillRect(cx, cy, 10, 10)
+      ctx.fillText(`圆心(${cx}, ${cy})`, cx + 16, cy + 6)
+      ctx.fillRect(cx + radius, cy, 10, 10)
+      ctx.fillText(`起始点(${cx + radius}, ${cy})`, cx + radius + 16, cy + 6)
+      ctx.fillRect(cx, cy - radius, 10, 10)
+      ctx.fillText(`结束点(${cx}, ${cy + radius})`, cx + 16, cy - radius + 6)
+    </script>
+  </body>
+</html>

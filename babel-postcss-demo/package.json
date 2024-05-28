@@ -1,0 +1,22 @@
+{
+  "name": "babel-postcss-demo",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "watch:js": "babel js/index.js -o dist/js/index.js -w",
+    "build:js": "babel js/index.js -o dist/js/index.js",
+    "watch:css": "postcss css/index.css -o dist/css/index.css -w",
+    "build:css": "postcss css/index.css -o dist/css/index.css"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "cssnano": "^6.1.0",
+    "postcss": "^8.4.35",
+    "postcss-cli": "^11.0.0",
+    "postcss-preset-env": "^9.5.0",
+    "postcss-rtl": "^2.0.0"
+  }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="device-selector">
+      <h2>设备选择</h2>
+
+      <div class="device-selector-item">
+        <label for="audioinput">音频输入</label>
+        <select id="audioinput"></select>
+      </div>
+
+      <div class="device-selector-item">
+        <label for="audiooutput">音频输出</label>
+        <select id="audiooutput" disabled></select>
+      </div>
+
+      <div class="device-selector-item">
+        <label for="videoinput">视频输入</label>
+        <select id="videoinput"></select>
+      </div>
+
+      <div class="device-selector-item">
+        <label for="frameRate">视频帧率</label>
+        <select id="frameRate">
+          <option value="6">6 FPS</option>
+          <option value="12">12 FPS</option>
+          <option value="15">15 FPS</option>
+          <option value="24">24 FPS</option>
+          <option value="30">30 FPS</option>
+          <option value="48">48 FPS</option>
+          <option value="60" selected>60 FPS</option>
+        </select>
+      </div>
+
+      <div class="device-selector-item">
+        <label for="resolution">视频分辨率</label>
+        <select id="resolution">
+          <option value="352x288">352x288</option>
+          <option value="640x480">640x480</option>
+          <option value="1280x720" selected>1280x720</option>
+          <option value="1920x1080">1920x1080</option>
+        </select>
+      </div>
+
+      <div class="device-selector-item">
+        <button id="share-screen-btn">共享屏幕</button>
+      </div>
+    </div>
+
+    <div class="player-container">
+      <h2>媒体播放</h2>
+
+      <video id="video" autoplay playsinline></video>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

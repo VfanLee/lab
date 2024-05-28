@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>线条属性 lineCap</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      #canvas {
+        display: block;
+        background-color: #ff8;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      /**
+       * @type {HTMLCanvasElement}
+       */
+      const canvas = document.querySelector('#canvas')
+      canvas.width = 600
+      canvas.height = 300
+      const ctx = canvas.getContext('2d')
+
+      ctx.lineWidth = 30
+
+      ctx.beginPath()
+      ctx.moveTo(200, 100)
+      ctx.lineTo(400, 100)
+      // lineCap：线条两端形状，butt（默认）
+      ctx.lineCap = 'butt'
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.moveTo(200, 150)
+      ctx.lineTo(400, 150)
+      // lineCap：线条两端形状，round
+      ctx.lineCap = 'round'
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.moveTo(200, 200)
+      ctx.lineTo(400, 200)
+      // lineCap：线条两端形状，square
+      ctx.lineCap = 'square'
+      ctx.stroke()
+
+      // 辅助线
+      ctx.lineWidth = 1
+
+      ctx.moveTo(200, 0)
+      ctx.lineTo(200, 300)
+      ctx.stroke()
+
+      ctx.moveTo(400, 0)
+      ctx.lineTo(400, 300)
+      ctx.stroke()
+    </script>
+  </body>
+</html>
