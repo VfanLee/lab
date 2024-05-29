@@ -1,0 +1,18 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--text-color-primary);
+  background-color: var(--bg-color-page);
+  transition: 0.2s;
+}
+
+a,
+a:link {
+  color: var(--color-primary);
+}
