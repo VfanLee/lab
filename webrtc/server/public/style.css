@@ -1,5 +1,0 @@
-.device-selector-item {
-  & + & {
-    margin-block-start: 8px;
-  }
-}
