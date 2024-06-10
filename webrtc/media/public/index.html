@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GUM Demo</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- 操作区 -->
+      <div class="actions">
+        <p>
+          <button id="share" class="btn">分享我的麦克风和摄像头</button>
+          <button id="share-screen" class="btn">分享屏幕</button>
+        </p>
+        <p><button id="show-video" class="btn">显示我的视频</button></p>
+        <p><button id="stop-video" class="btn">停止我的视频</button></p>
+        <p>
+          <button id="change-size" class="btn">更改屏幕尺寸</button>
+          <input type="text" id="vid-width" value="1280" />
+          <span>x</span>
+          <input type="text" id="vid-height" value="720" />
+        </p>
+        <p>
+          <button id="start-record" class="btn">开始录制</button>
+          <button id="stop-record" class="btn">停止录制</button>
+          <button id="play-record" class="btn">播放录制</button>
+        </p>
+        <p>
+          <label>选择音频输入：</label>
+          <select id="audio-input"></select>
+        </p>
+        <p>
+          <label>选择音频输出：</label>
+          <select id="audio-output"></select>
+        </p>
+        <p>
+          <label>选择视频输入：</label>
+          <select id="video-input"></select>
+        </p>
+      </div>
+      <!-- 视频区 -->
+      <div class="videos">
+        <div>
+          <h3>我的</h3>
+          <video id="my-video" class="video" autoplay controls playsinline></video>
+        </div>
+        <div>
+          <h3>其他</h3>
+          <video id="other-video" class="video" autoplay playsinline></video>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
