@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <div>
+        <label for="username">用户名</label>
+        <input type="text" id="username" value="vfanlee" />
+      </div>
+
+      <div>
+        <label for="room">room</label>
+        <input type="text" id="room" />
+
+        <button id="connect" type="button">连接</button>
+      </div>
+
+      <div>
+        <ul id="content"></ul>
+      </div>
+
+      <form id="form">
+        <label for="input"></label>
+        <input type="text" id="input" disabled />
+        <button id="send" disabled>发送</button>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.7.5/dist/socket.io.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
