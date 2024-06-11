@@ -3,17 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GUM Demo</title>
+    <title>Media Demo</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
       <!-- 操作区 -->
       <div class="actions">
-        <p>
-          <button id="share" class="btn">分享我的麦克风和摄像头</button>
-          <button id="share-screen" class="btn">分享屏幕</button>
-        </p>
+        <p><button id="share" class="btn">分享我的麦克风和摄像头</button></p>
+        <p><button id="share-screen" class="btn">分享屏幕</button></p>
         <p><button id="show-video" class="btn">显示我的视频</button></p>
         <p><button id="stop-video" class="btn">停止我的视频</button></p>
         <p>
@@ -39,6 +37,23 @@
           <label>选择视频输入：</label>
           <select id="video-input"></select>
         </p>
+        <!-- 拓展功能 -->
+        <p>
+          <select id="screenshot-mode">
+            <option value="">默认</option>
+            <option value="blur(5px)">模糊</option>
+            <option value="brightness(0.5)">亮度</option>
+            <option value="contrast(200%)">对比度</option>
+            <option value="grayscale(100%)">灰度</option>
+            <option value="hue-rotate(90deg)">色相旋转</option>
+            <option value="invert(100%)">反色</option>
+            <option value="opacity(90%)">透明度</option>
+            <option value="saturate(200%)">饱和度</option>
+            <option value="sepia(100%)">褐色</option>
+            <option value="drop-shadow(4px 4px 8px blue)">阴影</option>
+          </select>
+          <button id="screenshot">截图</button>
+        </p>
       </div>
       <!-- 视频区 -->
       <div class="videos">
@@ -50,9 +65,12 @@
           <h3>其他</h3>
           <video id="other-video" class="video" autoplay playsinline></video>
         </div>
+        <div id="screenshot-container"></div>
       </div>
     </div>
 
     <script src="script.js"></script>
+    <!-- 扩展 -->
+    <script src="expand.js"></script>
   </body>
 </html>

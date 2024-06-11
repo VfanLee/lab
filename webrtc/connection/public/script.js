@@ -1,31 +1,25 @@
-const myVideo = document.querySelector('#my-video')
-const otherVideo = document.querySelector('#other-video')
+const localVideo = document.querySelector('#local-video')
+const remoteVideo = document.querySelector('#remote-video')
 
 let localStream
 let remoteStream
 let peerConnection
 
-let peerConfiguration = {
-  iceServers: [
-    {
-      urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'],
-    },
-  ],
-}
+// const peerConfiguration = {
+//   iceServers: [
+//     {
+//       urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'],
+//     },
+//   ],
+// }
 
-document.querySelector('#share').addEventListener('click', async e => {
-  const stream = await navigator.mediaDevices.getUserMedia({
-    audio: false,
-    video: true,
-  })
-  myVideo.srcObject = stream
-  localStream = stream
-
+document.querySelector('#call').addEventListener('click', async e => {
+  await getUserMedia()
   await createPeerConnection()
 
-  // offer
+  // create offer
   try {
-    console.log('create offer ...')
+    console.log('Creating offer...')
     const offer = await peerConnection.createOffer()
     console.log(offer)
   } catch (error) {
@@ -35,15 +29,42 @@ document.querySelector('#share').addEventListener('click', async e => {
 
 function createPeerConnection() {
   return new Promise((resolve, reject) => {
-    peerConnection = new RTCPeerConnection(peerConfiguration)
+    peerConnection = new RTCPeerConnection()
+    remoteStream = new MediaStream()
+    remoteStream.srcObject = remoteStream
 
     localStream.getTracks().forEach(track => {
       peerConnection.addTrack(track, localStream)
     })
 
     peerConnection.addEventListener('icecandidate', e => {
-      console.log('ICE candidate', e)
+      console.log('........Ice candidate found!......', e)
     })
+
+    peerConnection.addEventListener('track', e => {
+      console.log('........Track event......', e)
+
+      e.streams[0].getTracks.forEach(track => {
+        remoteStream.addTrack(track)
+      })
+    })
+
     resolve()
+  })
+}
+
+function getUserMedia() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: true,
+      })
+      localVideo.srcObject = stream
+      localStream = stream
+      resolve()
+    } catch (error) {
+      reject(error)
+    }
   })
 }

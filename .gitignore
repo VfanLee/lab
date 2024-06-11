@@ -1,5 +1,6 @@
 node_modules
-
 package-lock.json
-
-certs
+ca.crt
+ca.key
+cert.crt
+cert.key

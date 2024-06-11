@@ -8,7 +8,11 @@ const videoInputEl = document.querySelector('#video-input')
 let stream
 const constraints = {
   audio: true,
-  video: true,
+  video: {
+    width: { ideal: 1920 },
+    height: { ideal: 1080 },
+    frameRate: 60,
+  },
 }
 // 分享我的麦克风和摄像头
 document.querySelector('#share').addEventListener('click', async e => {
@@ -17,7 +21,9 @@ document.querySelector('#share').addEventListener('click', async e => {
     console.log(stream)
 
     const tracks = stream.getTracks()
-    console.log(tracks)
+    tracks.forEach(track => {
+      console.log('track', track.getCapabilities())
+    })
   } catch (error) {
     console.log(error)
   }
@@ -31,7 +37,7 @@ let options = {
 document.querySelector('#share-screen').addEventListener('click', async e => {
   try {
     stream = await navigator.mediaDevices.getDisplayMedia(options)
-    console.log(screenStream)
+    console.log(stream)
   } catch (error) {
     console.log(error)
   }
@@ -56,9 +62,7 @@ document.querySelector('#change-size').addEventListener('click', e => {
   console.log('getSupportedConstraints():', navigator.mediaDevices.getSupportedConstraints())
 
   stream.getTracks().forEach(track => {
-    console.log('track', track)
-    console.log('getConstraints()', track.getConstraints())
-    console.log('getCapabilities()', track.getCapabilities())
+    console.log('track', track, track.getConstraints(), track.getCapabilities(), track.getSettings())
 
     if (track.kind === 'video') {
       const width = +document.querySelector('#vid-width').value
@@ -73,16 +77,17 @@ document.querySelector('#change-size').addEventListener('click', e => {
 })
 
 let mediaRecorder = null
-let recordBlobs = []
+let chunks = []
 // 开始录制
 document.querySelector('#start-record').addEventListener('click', e => {
   console.log('开始录制')
-  recordBlobs = []
+  chunks = []
   mediaRecorder = new MediaRecorder(stream)
   mediaRecorder.ondataavailable = e => {
-    recordBlobs.push(e.data)
+    chunks.push(e.data)
+    console.log('录制', e.data)
   }
-  mediaRecorder.start()
+  mediaRecorder.start(3000)
 })
 
 // 停止录制
@@ -94,7 +99,7 @@ document.querySelector('#stop-record').addEventListener('click', e => {
 // 播放录制
 document.querySelector('#play-record').addEventListener('click', e => {
   console.log('播放录制')
-  const buffer = new Blob(recordBlobs)
+  const buffer = new Blob(chunks)
   otherVideo.src = URL.createObjectURL(buffer)
   otherVideo.controls = true
   otherVideo.play()
@@ -127,6 +132,7 @@ async function getDevices() {
 // 获取设备
 getDevices()
 
+// 更改音频输入设备
 audioInputEl.addEventListener('change', async e => {
   const deviceId = e.target.value
   console.log(deviceId)
@@ -140,17 +146,19 @@ audioInputEl.addEventListener('change', async e => {
     stream = await navigator.mediaDevices.getUserMedia(constraints)
     console.log(stream)
     const tracks = stream.getAudioTracks()
-    console.log(tracks)
+    console.log('getAudioTracks()', tracks)
   } catch (error) {
     console.log(error)
   }
 })
 
+// 更改音频输出设备
 audioOutputEl.addEventListener('change', async e => {
   await myVideo.setSinkId(e.target.value)
   console.log('音频输出设备已切换')
 })
 
+// 更改视频输入设备
 videoInputEl.addEventListener('change', async e => {
   const deviceId = e.target.value
   console.log(deviceId)
@@ -164,7 +172,7 @@ videoInputEl.addEventListener('change', async e => {
     stream = await navigator.mediaDevices.getUserMedia(constraints)
     console.log(stream)
     const tracks = stream.getVideoTracks()
-    console.log(tracks)
+    console.log('getVideoTracks()', tracks)
   } catch (error) {
     console.log(error)
   }
