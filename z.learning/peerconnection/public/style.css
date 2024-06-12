@@ -1,7 +1,10 @@
 .videos {
   display: flex;
-  gap: 32px;
-  width: 100%;
+  gap: 16px;
+}
+
+.preview {
+  flex: 1;
 }
 
 .video {

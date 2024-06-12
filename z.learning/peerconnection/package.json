@@ -1,5 +1,5 @@
 {
-  "name": "connection",
+  "name": "peerconnection",
   "version": "1.0.0",
   "description": "",
   "private": true,

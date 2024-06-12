@@ -3,22 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Connection</title>
+    <title>WebRTC PeerConnection</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
       <div class="actions">
+        <button id="start" class="btn">Start</button>
         <button id="call" class="btn">Call</button>
+        <button id="hang-up" class="btn">Hang Up</button>
       </div>
       <div class="videos">
-        <div>
+        <div class="preview">
           <h3>本地</h3>
           <video id="local-video" class="video" autoplay controls playsinline></video>
+          <pre id="offer" class="sdp"></pre>
         </div>
-        <div>
+        <div class="preview">
           <h3>远程</h3>
           <video id="remote-video" class="video" autoplay playsinline></video>
+          <pre id="answer" class="sdp"></pre>
         </div>
       </div>
     </div>
