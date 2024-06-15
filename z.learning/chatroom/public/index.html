@@ -8,6 +8,11 @@
   <body>
     <div>
       <div>
+        <button type="button" id="connect">连接</button>
+        <button type="button" id="disconnect" disabled>断开连接</button>
+      </div>
+
+      <div>
         <label for="username">用户名</label>
         <input type="text" id="username" value="vfanlee" />
       </div>
@@ -15,15 +20,13 @@
       <div>
         <label for="room">room</label>
         <input type="text" id="room" />
-
-        <button id="connect" type="button">连接</button>
       </div>
 
       <div>
         <ul id="content"></ul>
       </div>
 
-      <form id="form">
+      <form id="message-form">
         <label for="input"></label>
         <input type="text" id="input" disabled />
         <button id="send" disabled>发送</button>
