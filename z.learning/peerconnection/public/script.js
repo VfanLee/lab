@@ -36,7 +36,7 @@ async function start() {
     const stream = await navigator.mediaDevices.getUserMedia(constraints)
     getMediaStream(stream)
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -48,10 +48,11 @@ function getMediaStream(stream) {
 }
 
 function conn() {
-  socket = io.connect('https://localhost')
+  socket = io.connect('https://192.168.1.10')
 
-  socket.on('joined', (roomId, id) => {
-    console.log('[joined]', roomId, id)
+  socket.on('joined', (room, id) => {
+    console.log('[joined]', room, id)
+    roomId = room
 
     state = 'joined'
 
@@ -63,21 +64,21 @@ function conn() {
     console.log('[joined - state]', state)
   })
 
-  socket.on('other join', (roomId, id) => {
-    console.log('[other join]', roomId, id)
+  socket.on('other join', (room, id) => {
+    console.log('[other join]', room, id)
 
     if (state === 'joined_unbind') {
       createPeerConnection()
     }
 
     state = 'join_conn'
-    // 媒体协商
+    call()
 
     console.log('[other join - state]', state)
   })
 
-  socket.on('full', (roomId, id) => {
-    console.log('[full]', roomId, id)
+  socket.on('full', (room, id) => {
+    console.log('[full]', room, id)
 
     state = 'leaved'
     socket.disconnect()
@@ -90,8 +91,8 @@ function conn() {
     console.log('[full - state]', state)
   })
 
-  socket.on('leaved', (roomId, id) => {
-    console.log('[leaved]', roomId, id)
+  socket.on('leaved', (room, id) => {
+    console.log('[leaved]', room, id)
 
     state = 'leaved'
     socket.disconnect()
@@ -103,8 +104,8 @@ function conn() {
   })
 
   // 对端离开的时候
-  socket.on('bye', (roomId, id) => {
-    console.log('[bye]', roomId, id)
+  socket.on('bye', (room, id) => {
+    console.log('[bye]', room, id)
 
     state = 'joined_unbind'
     closePeerConnection()
@@ -112,13 +113,34 @@ function conn() {
     console.log('[bye - state]', state)
   })
 
-  socket.on('message', (roomId, data) => {
-    console.log('[message]', roomId, data)
+  socket.on('message', (room, data) => {
+    console.log('[message]', room, data)
 
     // 媒体协商
+    if (data) {
+      if (data.type === 'offer') {
+        pc.setRemoteDescription(new RTCSessionDescription(data))
+          .then(() => pc.createAnswer())
+          .then(getAnswer)
+          .catch(err => console.error('getAnswer() error', err))
+      } else if (data.type === 'answer') {
+        pc.setRemoteDescription(new RTCSessionDescription(data)).catch(err => console.error('setRemoteDescription() error', err))
+      } else if (data.type === 'candidate') {
+        const candidate = new RTCIceCandidate(data.candidate)
+        pc.addIceCandidate(candidate).catch(err => console.error('addIceCandidate() error', err))
+      } else {
+        console.error('message 数据错误', data)
+      }
+    }
   })
 
   socket.emit('join', MOCK_ROOM_ID)
+}
+
+function getAnswer(desc) {
+  pc.setLocalDescription(desc)
+    .then(() => sendMessage(roomId, desc))
+    .catch(err => console.error('setLocalDescription() error', err))
 }
 
 // 断开连接
@@ -133,8 +155,8 @@ function disconnSignalServer() {
   closePeerConnection()
   closeLocalMedia()
 
-  // connectBtn.disabled = false
-  // disconnectBtn.disabled = true
+  connectBtn.disabled = false
+  disconnectBtn.disabled = true
 }
 
 function closeLocalMedia() {
@@ -150,10 +172,10 @@ function createPeerConnection() {
   console.log('create RTCPeerConnection')
 
   if (!pc) {
-    pcConfig = {
+    const pcConfig = {
       iceServers: [
         {
-          urls: 'stun:stun.l.google.com:19302',
+          urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'],
         },
       ],
     }
@@ -163,6 +185,11 @@ function createPeerConnection() {
     pc.onicecandidate = e => {
       if (e.candidate) {
         console.log('发现一个新的 candidate：', e.candidate)
+
+        sendMessage(roomId, {
+          type: 'candidate',
+          candidate: e.candidate,
+        })
       }
     }
 
@@ -173,7 +200,7 @@ function createPeerConnection() {
 
   if (localStream) {
     localStream.getTracks().forEach(track => {
-      pc.addTrack(track)
+      pc.addTrack(track, localStream)
     })
   }
 }
@@ -184,5 +211,33 @@ function closePeerConnection() {
   if (pc) {
     pc.close()
     pc = null
+  }
+}
+
+// 媒体协商
+function call() {
+  if (state === 'join_conn') {
+    if (pc) {
+      pc.createOffer({
+        offerToReceiveAudio: 1,
+        offerToReceiveVideo: 1,
+      })
+        .then(getOffer)
+        .catch(err => console.error('createOffer() error', err))
+    }
+  }
+}
+
+function getOffer(desc) {
+  pc.setLocalDescription(desc)
+    .then(() => sendMessage(roomId, desc))
+    .catch(err => console.error('setLocalDescription() error', err))
+}
+
+function sendMessage(roomId, data) {
+  console.log('发送 p2p 消息', roomId, data)
+
+  if (socket) {
+    socket.emit('message', roomId, data)
   }
 }
