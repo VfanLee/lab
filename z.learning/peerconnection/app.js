@@ -55,6 +55,4 @@ io.on('connect', socket => {
   })
 })
 
-httpServer.listen(443, () => {
-  console.log('https://localhost')
-})
+httpServer.listen(443)
